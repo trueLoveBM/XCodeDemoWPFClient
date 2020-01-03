@@ -10,8 +10,6 @@ namespace XCodeDemoWpfClient.Utils
 {
     public class CusVisualTreeHelper
     {
-
-
         /// <summary>
         /// 利用VisualTreeHelper寻找指定依赖对象的父级对象
         /// </summary>

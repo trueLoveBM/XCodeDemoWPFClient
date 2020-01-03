@@ -17,27 +17,32 @@
             <RowDefinition Height="50"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
-        
+
         <!--自定义标题栏-->
         <cc:CusWindowHeader></cc:CusWindowHeader>
-        
+
         <!--主要内容面板:抽屉菜单-->
-        <materialDesign:DrawerHost  Grid.Row="1" BorderBrush="{DynamicResource MaterialDesignDivider}">
+        <materialDesign:DrawerHost  Grid.Row="1"  BorderBrush="{DynamicResource MaterialDesignDivider}">
             <!--左侧抽屉-->
             <materialDesign:DrawerHost.LeftDrawerContent>
-                <StackPanel>
-                    <Button></Button>
+                <StackPanel >
+                    <Expander HorizontalAlignment="Left"  Header="接收与登记" Padding="0">
+                        <StackPanel  Orientation="Vertical" TextBlock.Foreground="{DynamicResource MaterialDesignBody}" Margin="0,8,24,16">
+                           
+                        </StackPanel>
+                    </Expander>
                 </StackPanel>
             </materialDesign:DrawerHost.LeftDrawerContent>
-        </materialDesign:DrawerHost>
 
-        <!--主要内容-->
-        <Grid Grid.Row="1">
-            <Button Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
-                        CommandParameter="{x:Static Dock.Right}">
-                <materialDesign:PackIcon Kind="ArrowRight" />
-            </Button>
-        </Grid>
-        
+            <!--主要内容-->
+            <Grid >
+                <Button Width="120" Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
+                        CommandParameter="{x:Static Dock.Left}" Click="Button_Click">
+                    <materialDesign:PackIcon Kind="ArrowRight" />
+                </Button>
+                <materialDesign:Snackbar MessageQueue="{materialDesign:MessageQueue}" x:Name="MainSnackbar" HorizontalAlignment="Right"
+                                            Grid.Row="1" />
+            </Grid>
+        </materialDesign:DrawerHost>
     </Grid>
 </Window>

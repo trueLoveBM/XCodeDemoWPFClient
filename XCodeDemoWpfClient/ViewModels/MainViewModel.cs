@@ -14,7 +14,6 @@ namespace XCodeDemoWpfClient.ViewModels
     [Export(typeof(MainViewModel))]
     public class MainViewModel : Caliburn.Micro.Screen
     {
-
         #region 界面调用方法 
         /// <summary>
         /// 测试token

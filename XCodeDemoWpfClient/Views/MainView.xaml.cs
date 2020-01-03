@@ -23,5 +23,10 @@ namespace XCodeDemoWpfClient.Views
         {
             InitializeComponent();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            MainSnackbar.MessageQueue.Enqueue("抽屉菜单打开了");
+        }
     }
 }
