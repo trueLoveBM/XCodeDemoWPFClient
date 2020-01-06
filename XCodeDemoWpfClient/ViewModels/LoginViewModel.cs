@@ -56,41 +56,50 @@ namespace XCodeDemoWpfClient.ViewModels
         #endregion
 
         /// <summary>
+        /// 登录请求是否发出标志
+        /// </summary>
+        private bool _logining = false;
+
+        /// <summary>
         /// 开始登陆
         /// </summary>
-        public void StartLogin(string UserName, string PassWord)
+        public async void StartLoginAsync(string UserName, string PassWord)
         {
-            PassWord = "123456";
-
-            LoginInputDto dto = new LoginInputDto();
-            dto.EmployeeCode = UserName;
-            dto.EmployeeName = UserName;
-            dto.Password = PassWord;
-
-            Call call = RetrofitHelper.SystemManagerService.SignIn(dto);
-
-            Respone<CommonResponse<LoginOutputDto>> resp = call.Execute<CommonResponse<LoginOutputDto>>();
-            if (resp.IsSuccess)
+            //判断是否正在登录中
+            if (!_logining)
             {
-                CommonResponse<LoginOutputDto> data = resp.Data;
+                PassWord = "123456";
 
-                //登录成功，将Token保存至Retrofit的header中，以后每次调用进行添加
-                RetrofitHelper.AddHeader($"Authenticate:{data.Data.Token}");
+                LoginInputDto dto = new LoginInputDto();
+                dto.EmployeeCode = UserName;
+                dto.EmployeeName = UserName;
+                dto.Password = PassWord;
 
-                //将用户信息保存至缓存中
-                ClientCache.Instance.SaveClientInfo(data.Data);
+                Call call = RetrofitHelper.SystemManagerService.SignIn(dto);
 
-                //启动主页面
-                _WindowManager.ShowWindow(new MainViewModel());
+                //异步调取登录接口
+                Respone<CommonResponse<LoginOutputDto>> resp = await call.Enqueue<CommonResponse<LoginOutputDto>>();
+                if (resp.IsSuccess)
+                {
+                    CommonResponse<LoginOutputDto> data = resp.Data;
 
-                //关闭此页面
-                this.TryClose();
-            }
-            else
-            {
-                MessageBox.Show(resp.Msg);
+                    //登录成功，将Token保存至Retrofit的header中，以后每次调用进行添加
+                    RetrofitHelper.AddHeader($"Authenticate:{data.Data.Token}");
+
+                    //将用户信息保存至缓存中
+                    ClientCache.Instance.SaveClientInfo(data.Data);
+
+                    //启动主页面
+                    _WindowManager.ShowWindow(new MainViewModel());
+
+                    //关闭此页面
+                    this.TryClose();
+                }
+                else
+                {
+                    MessageBox.Show(resp.Msg);
+                }
             }
         }
-
     }
 }

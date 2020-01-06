@@ -83,7 +83,7 @@
 
             <!--登录按钮-->
             <Grid  Grid.Row="5">
-                <Button HorizontalAlignment="Left" Margin="50 0 10 0" cal:Message.Attach="[Event Click] = [Action StartLogin(NameTextBox.Text,PasswordBox.Password)]" Style="{StaticResource MaterialDesignRaisedDarkButton}"    Width="100"  ToolTip="Resource name: MaterialDesignRaisedLightDarkButton" Content="{DynamicResource str_SignIn}"></Button>
+                <Button HorizontalAlignment="Left" Margin="50 0 10 0" cal:Message.Attach="[Event Click] = [Action StartLoginAsync(NameTextBox.Text,PasswordBox.Password)]" Style="{StaticResource MaterialDesignRaisedDarkButton}"    Width="100"  ToolTip="Resource name: MaterialDesignRaisedLightDarkButton" Content="{DynamicResource str_SignIn}"></Button>
             </Grid>
         </Grid>
     </Grid>

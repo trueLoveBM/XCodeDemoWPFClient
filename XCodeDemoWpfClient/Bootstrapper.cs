@@ -31,7 +31,7 @@ namespace XCodeDemoWpfClient
 
         protected override void OnStartup(object obj, StartupEventArgs e)
         {
-            DisplayRootViewFor<MainViewModel>();
+            DisplayRootViewFor<LoginViewModel>();
         }
 
 

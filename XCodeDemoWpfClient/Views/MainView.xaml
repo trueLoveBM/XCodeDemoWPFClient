@@ -12,6 +12,76 @@
          xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         WindowChrome.WindowChrome="{DynamicResource windowNoneTopWhiteSlide}"
         Title="主界面" Height="800" Width="1280">
+    <Window.Resources>
+        <Style x:Key="TabItemStyle" TargetType="{x:Type TabItem}">
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkBrush}"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHueDarkBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TabItem}">
+                        <Border x:Name="templateRoot"  SnapsToDevicePixels="True" Background="Transparent" Width="100" Height="30" BorderThickness="1" BorderBrush="{DynamicResource CusCarouselDeformationChart}" CornerRadius="5">
+                            <TextBlock x:Name="txt" Visibility="Visible"  VerticalAlignment="Center" HorizontalAlignment="Center" Style="{DynamicResource TableHeaderStyle}" Text="{TemplateBinding Header}" ToolTip="{TemplateBinding Header}" Foreground="{TemplateBinding Foreground}" TextTrimming="CharacterEllipsis" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="true"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type TabControl}}}" Value="Top"/>
+                                </MultiDataTrigger.Conditions>
+
+                                <!--<Setter Property="Foreground" TargetName="txt" Value="#fffea1"/>-->
+                                <Setter Property="Background" TargetName="templateRoot" Value="{DynamicResource CusCarouselDeformationChart}"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="false"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type TabControl}}}" Value="Left"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Opacity" TargetName="templateRoot" Value="0.56"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="false"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type TabControl}}}" Value="Bottom"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Opacity" TargetName="templateRoot" Value="0.56"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="false"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type TabControl}}}" Value="Right"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Opacity" TargetName="templateRoot" Value="0.56"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="false"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type TabControl}}}" Value="Top"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Opacity" TargetName="templateRoot" Value="0.56"/>
+                            </MultiDataTrigger>
+
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="true"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type TabControl}}}" Value="Top"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Panel.ZIndex" Value="1"/>
+                                <!--<Setter Property="Foreground" TargetName="txt" Value="#fffea1"/>-->
+                                <Setter Property="Background" TargetName="templateRoot" Value="{DynamicResource CusCarouselDeformationChart}"/>
+                            </MultiDataTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"></RowDefinition>
@@ -25,23 +95,47 @@
         <materialDesign:DrawerHost  Grid.Row="1"  BorderBrush="{DynamicResource MaterialDesignDivider}">
             <!--左侧抽屉-->
             <materialDesign:DrawerHost.LeftDrawerContent>
-                <StackPanel >
-                    <Expander HorizontalAlignment="Left"  Header="接收与登记" Padding="0">
-                        <StackPanel  Orientation="Vertical" TextBlock.Foreground="{DynamicResource MaterialDesignBody}" Margin="0,8,24,16">
-                           
+                <DockPanel  Background="Red">
+                    <Expander  Header="接收与登记" ExpandDirection="Down">
+                        <Expander.HeaderTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <TextBlock Style="{StaticResource MaterialDesignSubtitle1TextBlock}"  Text="{Binding}"></TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                        </Expander.HeaderTemplate>
+                        <StackPanel  Orientation="Vertical" TextBlock.Foreground="{DynamicResource MaterialDesignBody}" >
+                            <ListBox ItemsSource="{Binding SignMenuList}" >
+                                <ListBox.Resources>
+                                    <Style TargetType="ScrollBar" BasedOn="{StaticResource MaterialDesignScrollBarMinimal}"/>
+                                </ListBox.Resources>
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                         
+                                            <TextBlock Style="{StaticResource MaterialDesignSubtitle2TextBlock}" Padding="20 0 0 0" Text="{Binding MenuName}"></TextBlock>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
                         </StackPanel>
                     </Expander>
-                </StackPanel>
+                </DockPanel>
             </materialDesign:DrawerHost.LeftDrawerContent>
 
             <!--主要内容-->
             <Grid >
-                <Button Width="120" Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
+
+                <TabControl>
+                    <TabItem Header="这里是测试" Style="{StaticResource TabItemStyle}" >
+                        <Button Width="120" Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
                         CommandParameter="{x:Static Dock.Left}" Click="Button_Click">
-                    <materialDesign:PackIcon Kind="ArrowRight" />
-                </Button>
+                            <materialDesign:PackIcon Kind="ArrowRight" />
+                        </Button>
+                    </TabItem>
+                </TabControl>
                 <materialDesign:Snackbar MessageQueue="{materialDesign:MessageQueue}" x:Name="MainSnackbar" HorizontalAlignment="Right"
-                                            Grid.Row="1" />
+                                             />
             </Grid>
         </materialDesign:DrawerHost>
     </Grid>

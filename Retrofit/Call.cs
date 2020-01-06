@@ -173,14 +173,16 @@ namespace RetrofitFrame
                     sb.Append(paramName);
                     sb.Append("=");
                     sb.Append(paramValue);
-                    if (i != RquestInfo.Param.Keys.Count-1)
+                    if (i != RquestInfo.Param.Keys.Count - 1)
                     {
                         sb.Append("&");
                     }
                 }
             }
             Encoding encoding = Encoding.UTF8;
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(sb.ToString());
+            string url = sb.ToString();
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+
             request.Method = RquestInfo.HttpMethod.ToString();
             request.Accept = Client.Accept;
             request.ContentType = Client.ContentType;
@@ -263,6 +265,21 @@ namespace RetrofitFrame
 
             }
             return respone;
+        }
+
+
+        /// <summary>
+        /// 异步调取接口，返回结果
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public async Task<Respone<T>> Enqueue<T>()
+        {
+            var result = await Task.Factory.StartNew<Respone<T>>(() =>
+                   {
+                       return commonApiExecute<T>();
+                   });
+            return result;
         }
     }
 }

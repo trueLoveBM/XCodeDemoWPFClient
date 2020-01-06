@@ -2,6 +2,7 @@
 using RetrofitFrame.RetrofitCahce;
 using RetrofitFrame.RetrofitException;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -13,12 +14,9 @@ namespace RetrofitFrame
 {
     public class Retrofit
     {
-
         public string Url { set; get; }
 
-
         public List<String> Header { set; get; }
-
 
         public string Accept { get; set; } = "text/html, application/xhtml+xml, */*";
 
